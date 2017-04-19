@@ -13,7 +13,8 @@ public class Elevation {
 
     @Override
     public String toString() {
-        return "Place: " + place + " is at elevation " + elevation + " meters";
+        return "Place: " + place + " is " +
+                "at elevation " + elevation + " meters";
     }
 
 }

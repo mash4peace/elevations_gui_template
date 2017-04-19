@@ -34,4 +34,8 @@ public class Controller {
     }
 
 
+
+    public void deleting(Elevation elevation) {
+        db.delete(elevation);
+    }
 }

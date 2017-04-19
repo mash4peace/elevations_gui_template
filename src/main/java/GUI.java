@@ -16,6 +16,7 @@ public class GUI extends JFrame {
     private JLabel placeLabel;
     private JLabel elevationLabel;
     private JButton submitButton;
+    private JButton deleteBtn;
 
     private JList<Elevation> allElevationsList;
     private JScrollPane allElevationsListScrollPane;
@@ -26,7 +27,8 @@ public class GUI extends JFrame {
 
     GUI(Controller controller) {
 
-        this.controller = controller;  //Store a reference to the controller object.
+        this.controller = controller;  //Store a reference to
+        // the controller object.
         // Need this to make requests to the database.
 
         addComponents();   //Add GUI components
@@ -47,7 +49,27 @@ public class GUI extends JFrame {
 
     }
 
+
+
     private void addListeners() {
+        deleteBtn.addActionListener(new ActionListener() {
+                @Override
+        public void actionPerformed(ActionEvent e) {
+            Elevation elevation = allElevationsList.getSelectedValue();
+            if (elevation == null) {
+                JOptionPane.showMessageDialog(GUI.this, "Please select an elevation to delete ?");
+
+            } else {
+
+                controller.deleting(elevation);
+                ArrayList<Elevation> elevations = controller.getAllData();
+                setListData(elevations);
+
+            }
+        }
+    });
+
+
 
         submitButton.addActionListener(new ActionListener() {
             @Override
@@ -102,6 +124,8 @@ public class GUI extends JFrame {
         allElevationsList = new JList<Elevation>();
         allElevationsListScrollPane = new JScrollPane(allElevationsList);
 
+        deleteBtn = new JButton("Delete");
+
         //Create a JPanel to hold all of the above
         mainPanel = new JPanel();
 
@@ -117,6 +141,7 @@ public class GUI extends JFrame {
         mainPanel.add(enterElevation);
         mainPanel.add(submitButton);
         mainPanel.add(allElevationsListScrollPane);
+        mainPanel.add(deleteBtn);
 
 
     }

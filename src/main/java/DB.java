@@ -8,9 +8,11 @@ public class DB {
 
 
     private static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";        //Configure the driver needed
-    private static final String DB_CONNECTION_URL = "jdbc:mysql://localhost:3306/geography";     //Connection string – where's the database?
-    private static final String USER = "clara";   //TODO replace with your username
-    private static final String PASSWORD = "clara";   //TODO replace with your password
+    private static final String DB_CONNECTION_URL =
+            "jdbc:mysql://localhost:3306/geography";     //Connection string – where's the database?
+
+    private static final String USER = ("mash4peace");   //TODO replace with your username
+    private static final String PASSWORD = System.getenv("MYSQL_pw");   //TODO replace with your password
     private static final String TABLE_NAME = "elevations";
     private static final String PLACE_COL = "place";
     private static final String ELEV_COL = "elev";
@@ -21,7 +23,9 @@ public class DB {
         try {
             Class.forName(JDBC_DRIVER);
         } catch (ClassNotFoundException cnfe) {
-            System.out.println("Can't instantiate driver class; check you have drives and classpath configured correctly?");
+            System.out.println("Can't instantiate driver class; " +
+                    "check you have drives and classpath configured" +
+                    " correctly?");
             cnfe.printStackTrace();
             System.exit(-1);  //No driver? Need to fix before anything else will work. So quit the program
         }
@@ -29,7 +33,8 @@ public class DB {
 
     void createTable() {
 
-        try (Connection conn = DriverManager.getConnection(DB_CONNECTION_URL, USER, PASSWORD);
+        try (Connection conn = DriverManager.getConnection(
+                DB_CONNECTION_URL, USER, PASSWORD);
              Statement statement = conn.createStatement()) {
 
             //You should have already created a database via terminal/command prompt
@@ -38,7 +43,9 @@ public class DB {
             //Can use String formatting to build this type of String from constants coded in your program
             //Don't do this with variables with data from the user!! That's what ParameterisedStatements are, and that's for queries, updates etc. , not creating tables.
             // You shouldn't make database schemas from user input anyway.
-            String createTableSQLTemplate = "CREATE TABLE IF NOT EXISTS %s (%s VARCHAR (100), %s DOUBLE)";
+            String createTableSQLTemplate =
+                    "CREATE TABLE IF NOT EXISTS %s (%s VARCHAR (100), %s " +
+                    "DOUBLE)";
             String createTableSQL = String.format(createTableSQLTemplate, TABLE_NAME, PLACE_COL, ELEV_COL);
 
             statement.executeUpdate(createTableSQL);
@@ -48,6 +55,7 @@ public class DB {
             conn.close();
 
         } catch (SQLException se) {
+
             se.printStackTrace();
         }
     }
@@ -105,5 +113,9 @@ public class DB {
         }
     }
 
+
+    public void delete(Elevation elevation) {
+
+    }
 
 }
